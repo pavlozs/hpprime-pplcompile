@@ -1,0 +1,10 @@
+{
+  "output": "build/aviation.hpprgm",
+  "programs": [
+    "NavFuel.ppl",    
+    "NavTas.ppl",
+    "NavTopD.ppl",    
+    "NavWca.ppl",
+    "NavWind.ppl"
+  ]
+}

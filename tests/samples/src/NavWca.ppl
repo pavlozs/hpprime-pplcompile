@@ -1,0 +1,30 @@
+// NavWca – Wind Correction Angle.
+//
+// The angle to offset the aircraft heading from the desired track
+// in order to compensate for a crosswind component.
+//
+// Parameters:
+//   WD  – Wind direction (from) [°true]
+//   WS  – Wind speed             [kt]
+//   TRK – Desired track          [°true]
+//   TAS – True Airspeed          [kt]
+//
+// Returns: Wind Correction Angle [°]
+//   Positive = correct to the right (turn right of track)
+//   Negative = correct to the left
+//
+// Formula (sine rule of the wind triangle):
+//   WCA = arcsin( sin(WD − TRK) × WS / TAS )
+//
+// Note: HAngle is saved and restored so the function always works in
+// degrees regardless of the calculator's current angle mode setting.
+EXPORT NavWca(WD, WS, TRK, TAS)
+BEGIN
+  LOCAL wa, wca, angMode;
+  angMode := HAngle;
+  HAngle  := 1;              // force degrees
+  wa  := WD - TRK;           // wind angle relative to desired track
+  wca := ASIN(SIN(wa) * WS / TAS);
+  HAngle := angMode;         // restore original angle mode
+  RETURN wca;
+END;

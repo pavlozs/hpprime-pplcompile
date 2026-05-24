@@ -1,0 +1,7 @@
+{
+  "output": "geometry.hpprgm",
+  "programs": [
+    "triVA.ppl",
+    "triS.ppl"
+  ]
+}

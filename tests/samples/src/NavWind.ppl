@@ -1,0 +1,34 @@
+// NavWind – Headwind and crosswind components.
+//
+// Resolves a wind vector into the component along a runway or track
+// (headwind) and the component perpendicular to it (crosswind).
+//
+// Parameters:
+//   WD  – Wind direction (from) [°true]
+//   WS  – Wind speed             [kt]
+//   HDG – Runway heading or track axis [°true]
+//
+// Returns: {HW, XW} [kt]
+//   HW > 0 → headwind  (wind opposing forward motion)
+//   HW < 0 → tailwind  (wind aiding forward motion)
+//   XW > 0 → wind from the right
+//   XW < 0 → wind from the left
+//
+// Formulae:
+//   angle = WD − HDG
+//   HW    = WS × cos(angle)
+//   XW    = WS × sin(angle)
+//
+// Note: HAngle is saved and restored so the function always works in
+// degrees regardless of the calculator's current angle mode setting.
+EXPORT NavWind(WD, WS, HDG)
+BEGIN
+  LOCAL angle, hw, xw, angMode;
+  angMode := HAngle;
+  HAngle  := 1;              // force degrees
+  angle := WD - HDG;
+  hw    := WS * COS(angle);
+  xw    := WS * SIN(angle);
+  HAngle := angMode;         // restore original angle mode
+  RETURN {hw, xw};
+END;

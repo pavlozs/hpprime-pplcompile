@@ -1,0 +1,46 @@
+/// Calculates the altitude (height) to side 'a' of a triangle.
+/// triVA(side_a, side_b, side_c)
+EXPORT triVA(a, b, c)
+BEGIN
+  // =========================================================================
+  // 1. TRIANGLE INEQUALITY THEOREM CHECK
+  // =========================================================================
+  // Before computing the altitude, we verify if the input sides 'a', 'b', 
+  // and 'c' can physically form a closed triangle. 
+  // 
+  // The sum of lengths of any two sides must exceed the length of the third.
+  // If this rule is violated, the code triggers an error popup and aborts.
+  // Note: The '≤' operator is located under Shift + 6 on the keypad.
+  
+  IF (a + b ≤ c) OR (a + c ≤ b) OR (b + c ≤ a) THEN
+    // Open a modal alert box with an error message on the screen
+    MSGBOX("Chyba: Strany netvoří trojúhelník!");
+    
+    // Stop program execution immediately and clean up the memory stack
+    KILL;
+  END;
+
+  // =========================================================================
+  // 2. SEMI-PERIMETER & AREA CALCULATION (HERON'S FORMULA)
+  // =========================================================================
+  // To find the altitude, we first need to determine the total area.
+  // Variable 's' represents the semi-perimeter: s = (a + b + c) / 2
+  
+  LOCAL s := (a + b + c) / 2;
+  
+  // Variable 'obsah' stores the calculated area via Heron's Formula.
+  // Area = √(s * (s - a) * (s - b) * (s - c))
+  
+  LOCAL obsah := SQRT(s * (s - a) * (s - b) * (s - c));
+  
+  // =========================================================================
+  // 3. ALTITUDE DERIVATION & RETURN VALUE
+  // =========================================================================
+  // The standard triangle area formula is: Area = (base * height) / 2
+  // Therefore, the height (altitude) to side 'a' is derived as:
+  // v_a = (2 * Area) / a
+  //
+  // This value is returned as a float in HOME mode or a radical/fraction in CAS.
+  
+  RETURN (2 * obsah) / a;
+END;

@@ -1,0 +1,21 @@
+// NavFuel – Fuel burn for a leg.
+//
+// Calculates the total fuel required to fly a given distance at a
+// constant groundspeed and fuel flow rate.
+//
+// Parameters:
+//   DIST – Leg distance    [NM]
+//   GS   – Ground Speed    [kt]   (1 kt = 1 NM/h)
+//   FF   – Fuel Flow rate  [kg/h, L/h, or any unit per hour]
+//
+// Returns: Total fuel [same unit as FF × h]
+//
+// Formula:
+//   time   = DIST / GS      [h]
+//   fuel   = FF × time      [fuel unit]
+EXPORT NavFuel(DIST, GS, FF)
+BEGIN
+  LOCAL time_h;
+  time_h := DIST / GS;      // leg duration in hours
+  RETURN FF * time_h;
+END;

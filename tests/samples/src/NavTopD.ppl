@@ -1,0 +1,30 @@
+// NavTopD – Top of Descent distance.
+//
+// Calculates how far before a waypoint or airfield the aircraft must
+// begin a constant-angle descent in order to arrive at the target
+// altitude exactly over that point.
+//
+// Parameters:
+//   ALT_NOW – Current (cruise) altitude [ft]
+//   ALT_TGT – Target altitude at the fix [ft]
+//   ANGLE   – Descent path angle [°], typically 3°
+//
+// Returns: Distance from the target fix to the Top of Descent [NM]
+//
+// Formula:
+//   alt_diff = ALT_NOW − ALT_TGT          [ft]
+//   dist_ft  = alt_diff / tan(ANGLE)      [ft]
+//   dist_NM  = dist_ft  / 6 076.12        [NM]  (1 NM = 6 076.12 ft)
+//
+// Note: HAngle is saved and restored so the function always works in
+// degrees regardless of the calculator's current angle mode setting.
+EXPORT NavTopD(ALT_NOW, ALT_TGT, ANGLE)
+BEGIN
+  LOCAL alt_diff, dist_ft, angMode;
+  angMode  := HAngle;
+  HAngle   := 1;                           // force degrees
+  alt_diff := ALT_NOW - ALT_TGT;
+  dist_ft  := alt_diff / TAN(ANGLE);
+  HAngle   := angMode;                     // restore original angle mode
+  RETURN dist_ft / 6076.12;
+END;

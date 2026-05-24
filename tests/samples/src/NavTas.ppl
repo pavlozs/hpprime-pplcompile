@@ -1,0 +1,19 @@
+// NavTas – True Airspeed from Indicated Airspeed and altitude.
+//
+// Parameters:
+//   IAS – Indicated Airspeed [kt]
+//   ALT – Pressure altitude  [ft]
+//
+// Returns: True Airspeed [kt]
+//
+// Formula (rule of thumb):
+//   TAS = IAS × (1 + ALT_kft × 0.02)
+//   where ALT_kft = altitude in thousands of feet
+//
+// This is a 2 %/1 000 ft approximation valid for standard ISA conditions
+// up to ~25 000 ft.  Error is typically within ±2 % of the precise
+// density-altitude method.
+EXPORT NavTas(IAS, ALT)
+BEGIN
+  RETURN IAS * (1 + (ALT / 1000) * 0.02);
+END;

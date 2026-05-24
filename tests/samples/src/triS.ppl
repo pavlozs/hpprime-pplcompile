@@ -1,0 +1,44 @@
+/// Calculates the area of a triangle using Heron's formula.
+/// triS(side_a, side_b, side_c)
+EXPORT triS(a, b, c)
+BEGIN
+  // =========================================================================
+  // 1. TRIANGLE INEQUALITY THEOREM CHECK
+  // =========================================================================
+  // Before calculating, we must ensure that the three sides can actually 
+  // form a valid triangle. According to the triangle inequality theorem, 
+  // the sum of any two sides must be strictly greater than the third side.
+  //
+  // If any of the following conditions are met, the triangle is invalid:
+  // - a + b is less than or equal to c
+  // - a + c is less than or equal to b
+  // - b + c is less than or equal to a
+  //
+  // Note: The symbol '≤' is entered on the calculator via Shift + 6 (or Apps key).
+  
+  IF (a + b ≤ c) OR (a + c ≤ b) OR (b + c ≤ a) THEN
+    // Display a system modal pop-up dialog with an error message to the user
+    MSGBOX("Chyba: Strany netvoří trojúhelník!");
+    
+    // Immediately terminate the execution of the program and clear the stack
+    KILL;
+  END;
+
+  // =========================================================================
+  // 2. SEMI-PERIMETER CALCULATION
+  // =========================================================================
+  // Declare a local variable 's' which represents the semi-perimeter 
+  // (half of the triangle's total perimeter).
+  // Formula: s = (a + b + c) / 2
+  
+  LOCAL s := (a + b + c) / 2;
+
+  // =========================================================================
+  // 3. HERON'S FORMULA & RETURN VALUE
+  // =========================================================================
+  // Calculate the final area using Heron's Formula: Area = √(s(s-a)(s-b)(s-c))
+  // The SQRT function returns a precise symbolic radical in CAS mode, 
+  // or a floating-point decimal value in HOME mode.
+  
+  RETURN SQRT(s * (s - a) * (s - b) * (s - c));
+END;
